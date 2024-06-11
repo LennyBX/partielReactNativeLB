@@ -8,7 +8,7 @@ export const Jeux = [
     },
     {
         name: "Street Fighter 2",
-        price: "20€",
+        price: "20",
         categorie: "Combat",
         vignette: "https://m.media-amazon.com/images/I/717l7sw-q-L._AC_UF1000,1000_QL80_.jpg",
         id: 12349
