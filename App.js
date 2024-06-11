@@ -4,9 +4,12 @@ import Section from './component/section';
 import { Jeux } from './data/data';
 import Header from './component/header';
 import AjoutJeux from "./component/ajoutJeux";
+import Modaldelete from "./component/modaldelete";
 
 export default function App() {
     const [jeux, setJeux] = useState(Jeux);
+    const [modalDeleteVisible, setModalDeleteVisible] = useState(false);
+    const [selectedJeuxIndex, setSelectedJeuxIndex] = useState(null);
     const aventure = jeux.filter(game => game.categorie === 'Action-Aventure');
     const FPS = jeux.filter(game => game.categorie === 'FPS');
     const COMBAT = jeux.filter(game => game.categorie === 'Combat');
@@ -18,16 +21,31 @@ export default function App() {
         setJeux(ancienJeux => [...ancienJeux, nouveauJeu]);
     };
 
+    const supprimerJeux = (id) => {
+        setSelectedJeuxIndex(id);
+        setModalDeleteVisible(true);
+    };
+
+    const handleDeleteConfirmation = () => {
+        if (selectedJeuxIndex !== null) {
+            const nouveauxJeux = jeux.filter(game => game.id !== selectedJeuxIndex);
+            setJeux(nouveauxJeux);
+            setSelectedJeuxIndex(null);
+            setModalDeleteVisible(false);
+        }
+    };
+
     return (
         <View style={styles.container}>
         <Header pseudo="Lenny BONDOUX" nbrJeuxTotales={jeux.length} />
+            <Modaldelete visible={modalDeleteVisible} onClose={() => setModalDeleteVisible(false)} onDelete={handleDeleteConfirmation} />
             <ScrollView style={styles.scroll}>
-                <Section title="Jeux d'avantures et d'action" jeux={aventure} />
-                <Section title="Jeux FPS" jeux={FPS} />
-                <Section title="Jeux de baguarre" jeux={COMBAT} />
-                <Section title="Jeux de sports" jeux={sport} />
-                <Section title="Voitures Jeux" jeux={voiture} />
-                <Section title="Jeux qui font peur" jeux={jeuxPeur} />
+                <Section title="Jeux d'avantures et d'action" jeux={aventure} onSupprimerJeux={supprimerJeux} />
+                <Section title="Jeux FPS" jeux={FPS} onSupprimerJeux={supprimerJeux} />
+                <Section title="Jeux de baguarre" jeux={COMBAT} onSupprimerJeux={supprimerJeux} />
+                <Section title="Jeux de sports" jeux={sport} onSupprimerJeux={supprimerJeux} />
+                <Section title="Voitures Jeux" jeux={voiture} onSupprimerJeux={supprimerJeux} />
+                <Section title="Jeux qui font peur" jeux={jeuxPeur} onSupprimerJeux={supprimerJeux} />
             </ScrollView>
             <AjoutJeux onAjoutJeux={ajoutJeux}/>
         </View>

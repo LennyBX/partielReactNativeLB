@@ -2,12 +2,13 @@ import React from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 import JeuObject from './jeuObject';
 
-const JeuxList = ({ jeux }) => {
+const JeuxList = ({ jeux, onSupprimerJeux }) => {
     return (
         <FlatList
             style={styles.flatlist}
             data={jeux}
-            renderItem={({ item }) => <JeuObject jeux={item} />}
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => <JeuObject jeux={item} onSupprimerJeux={onSupprimerJeux} />}
         />
     );
 };

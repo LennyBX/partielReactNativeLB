@@ -2,11 +2,11 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import JeuxList from './jeuxList';
 
-const Section = ({ title, jeux }) => {
+const Section = ({ title, jeux, onSupprimerJeux }) => {
     return (
         <View style={styles.section}>
             <Text style={styles.title}>{title}</Text>
-            <JeuxList jeux={jeux} />
+            <JeuxList jeux={jeux} onSupprimerJeux={onSupprimerJeux} />
         </View>
     );
 };
